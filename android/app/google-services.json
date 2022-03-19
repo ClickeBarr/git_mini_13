@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "51854284652",
+    "project_id": "miniqna-bbd87",
+    "storage_bucket": "miniqna-bbd87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51854284652:android:3d86752ee419fc3925c549",
+        "android_client_info": {
+          "package_name": "com.example.mini_qna"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51854284652-1rggo4r89kgulvqfmol7tpdq5cdrdm5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqIwgw1Xsfi5quEQhlBMv7VOQd_jih0-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51854284652-1rggo4r89kgulvqfmol7tpdq5cdrdm5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
