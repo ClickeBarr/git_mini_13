@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_qna/qa.dart';
+import 'package:mini_qna/qna_service.dart';
 import 'package:provider/provider.dart';
 
 import 'auth_service.dart';
@@ -12,6 +13,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
+        ChangeNotifierProvider(create: (context) => QnaService()),
       ],
       child: const MyApp(),
     ),
@@ -23,8 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user =
-        context.read<AuthService>().currentUser(); //현재 로그인 여부를 user에 담음
+    final user = context.read<AuthService>().currentUser();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: user == null ? LoginPage() : Qna(),
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context, authService, child) {
         final user = authService.currentUser();
         return Scaffold(
-          appBar: AppBar(title: Text("데이카 DaiQA")),
+          appBar: AppBar(title: Text("")),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -59,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 /// 현재 유저 로그인 상태
                 Center(
                   child: Text(
-                    user == null ? "로그인해 주세요 " : "${user.email}님 안녕하세요 👋",
+                    user == null ? "로그인해 주세요 🙂" : "${user.email}님 안녕하세요 👋",
                     style: TextStyle(
                       fontSize: 24,
                     ),
