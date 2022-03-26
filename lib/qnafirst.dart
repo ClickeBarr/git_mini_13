@@ -1,4 +1,5 @@
-import 'dart:async';
+import 'dart:developer';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,17 @@ class QnaFirstPage extends StatefulWidget {
 
 class _QnaFirstPageState extends State<QnaFirstPage> {
   TextEditingController qnaController = TextEditingController();
+  int selectedIndex = 0;
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(
+      () {
+        _counter++;
+      },
+    );
+  }
+
   // StreamController<String> streamController = StreamController<String>();
   @override
   Widget build(BuildContext context) {
@@ -25,128 +37,211 @@ class _QnaFirstPageState extends State<QnaFirstPage> {
       builder: (context, qnaService, child) {
         final authService = context.read<AuthService>();
         final user = authService.currentUser()!;
-        return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                "데이카 DaiQA",
-                style: TextStyle(
-                  color: Colors.pink[200],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              backgroundColor: Colors.white,
-              actions: [
-                TextButton(
-                  child: Text("logout",
-                      style: TextStyle(
-                        color: Colors.pink[200],
-                        fontWeight: FontWeight.bold,
-                      )),
-                  onPressed: () {
-                    //로그아웃
-                    context
-                        .read<AuthService>()
-                        .signOut(); //여긴 consumer로 감싸지않아 1회성 접근하는 context.read
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  },
-                ),
-              ],
-            ),
-            body: Column(
-              children: [
-                SizedBox(height: 35),
-                Row(
-                  children: [
-                    Container(),
-                    Spacer(),
-                  ],
-                ),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('qna')
-                          .snapshots(),
-                      // qnaService.read(user.uid),
-                      builder: (context, snapshot) {
-                        final documents = snapshot.data?.docs ?? [];
-                        if (documents.isEmpty) {
-                          return Center(child: Text('새 질문을 입력해 주세요'));
-                        }
-                        return ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index) {
-                            final doc = documents[index];
-                            String qna = doc.get("question");
-                            // bool isDone = doc.get("isDone");
-                            for (int i = 0; i < documents.length; i++) {}
-                            return ListTile(
-                              title: Text(qna),
-                            );
-                          },
-                        );
-                      }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blueGrey)),
-                    onPressed: () {
-                      // qnaService.update(doc.id, isDone);
-                    },
-                    child: Text("PASS"),
+
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('qna').snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            final documents = snapshot.data?.docs ?? [];
+            List<String> questionList = [];
+            documents.forEach((e) {
+              Map<String, dynamic> json = e.data();
+              questionList.add(json['question']);
+            });
+            // print(questionList);
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text(
+                  "데이카 DaiQA",
+                  style: TextStyle(
+                    color: Colors.pink[200],
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Jua",
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 35),
-                //   child: Container(
-                //     child: Center(
-                //       child: Text('- 질문  -',
-                //           style: TextStyle(
-                //               fontSize: 20, fontWeight: FontWeight.bold)),
-                //     ),
-                //     color: Colors.grey[200],
-                //     height: 350,
-                //     width: double.infinity,
-                //   ),
-                // ),
-                SizedBox(height: 90),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
-                  child: Row(
+                backgroundColor: Colors.amber[50],
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.search_sharp, color: Colors.pink[200]),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              body: Container(
+                color: Colors.amber[50],
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
                     children: [
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.lightBlue)),
-                        onPressed: () {
-                          qnaService.create(qnaController.text, user.uid);
-                        },
-                        child: Text(
-                          'o',
-                          style: TextStyle(fontSize: 22),
-                        ),
+                      SizedBox(height: 35),
+                      Row(
+                        children: [
+                          Container(),
+                          Spacer(),
+                        ],
                       ),
-                      Spacer(),
-                      ElevatedButton(
+                      Expanded(
+                        child: documents.isEmpty
+                            ? Center(
+                                child: Text(
+                                  '새 질문을 입력해 주세요',
+                                ),
+                              )
+                            : Center(
+                                child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      border: Border.all(color: Colors.purple),
+                                    ),
+                                    // child: ListView.builder(
+                                    //     itemCount: 1,
+                                    //     itemBuilder: (context, index) {
+                                    // return
+                                    // alignment: Alignment.center,
+                                    child: Text(
+                                      qnaService.questionList[selectedIndex],
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Jua",
+                                      ),
+                                      // textAlign: TextAlign.center,
+                                    )
+                                    // },
+                                    ),
+                              ),
+                      ),
+                      SizedBox(height: 25),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.lightBlue)),
-                          onPressed: () {},
+                                  Colors.blueGrey)),
+                          onPressed: () {
+                            setState(() {
+                              selectedIndex = (Random().nextDouble() *
+                                      qnaService.questionList.length)
+                                  .toInt();
+                            });
+                            // qnaService.shuffleQuestionList();
+                          },
                           child: Text(
-                            'x',
-                            style: TextStyle(fontSize: 22),
-                          )),
+                            "PASS",
+                            style: TextStyle(
+                              fontFamily: "Jua",
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 80),
+                        child: Row(
+                          children: [
+                            ButtonBar(
+                              children: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.orangeAccent,
+                                    minimumSize: Size(80, 50),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    side: BorderSide(
+                                        color: Colors.deepOrangeAccent,
+                                        width: 3),
+                                  ),
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        selectedIndex = (Random().nextDouble() *
+                                                qnaService.questionList.length)
+                                            .toInt();
+                                      },
+                                    );
+                                    _incrementCounter();
+                                    print('$_counter');
+                                  },
+                                  child: Text(
+                                    'o',
+                                    style: TextStyle(
+                                        fontSize: 35, color: Colors.white),
+                                  ),
+                                ),
+                                // Spacer(),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.orangeAccent,
+                                    minimumSize: Size(80, 50),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    side: BorderSide(
+                                        color: Colors.deepOrangeAccent,
+                                        width: 3),
+                                  ),
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        selectedIndex = (Random().nextDouble() *
+                                                qnaService.questionList.length)
+                                            .toInt();
+                                      },
+                                    );
+                                    _incrementCounter();
+                                    print('$_counter');
+                                  },
+                                  child: Text(
+                                    'x',
+                                    style: TextStyle(
+                                        fontSize: 35,
+                                        color: Colors.white,
+                                        fontFamily: 'Jua'),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 80),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 50,
+                        color: Colors.grey[300],
+                        child: Row(
+                          children: [
+                            Text(
+                              "MY COIN",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Jua',
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '$_counter',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                )
-              ],
-            ));
+                ),
+              ),
+            );
+          },
+        );
       },
     );
   }

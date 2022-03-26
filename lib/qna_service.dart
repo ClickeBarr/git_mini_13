@@ -1,12 +1,33 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class QnaService extends ChangeNotifier {
   final qnaCollection = FirebaseFirestore.instance.collection('qna');
 
+  QnaService() {
+    print('QNASERVICE START');
+    readAll();
+    notifyListeners();
+  }
+
   Future<QuerySnapshot> read(String uid) async {
     return qnaCollection.where('uid', isEqualTo: uid).get();
   } // 내가 작성한 question만 가져오도록 만듬
+
+  List<String> questionList = [];
+
+  Future<QuerySnapshot> readAll() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await qnaCollection.get();
+    querySnapshot.docs.forEach((QueryDocumentSnapshot<Map<String, dynamic>> e) {
+      Map<String, dynamic> json = e.data();
+      questionList.add(json['question']);
+    });
+    print(questionList);
+    return qnaCollection.get();
+  }
 
   void create(String question, String uid) async {
     await qnaCollection.add({

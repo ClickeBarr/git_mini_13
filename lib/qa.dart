@@ -41,7 +41,7 @@ class _QnaState extends State<Qna> {
         showSelectedLabels: false, // 선택된 항목 label 숨기기
         showUnselectedLabels: false, // 선택되지 않은 항목 label 숨기기
         type: BottomNavigationBarType.fixed, // 선택시 아이콘 움직이지 않기
-        backgroundColor: Colors.pink,
+        backgroundColor: KPrimaryColor,
         items: [
           BottomNavigationBarItem(
               icon: Column(
