@@ -18,6 +18,7 @@ class QnaThirdPage extends StatelessWidget {
             style: TextStyle(
               color: Colors.pink[200],
               fontWeight: FontWeight.bold,
+              fontFamily: 'Jua',
             ),
           ),
           backgroundColor: Colors.amber[50],
@@ -27,6 +28,7 @@ class QnaThirdPage extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.pink[200],
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Jua',
                   )),
               onPressed: () {
                 //로그아웃
@@ -48,22 +50,28 @@ class QnaThirdPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircleAvatar(
-              radius: 50,
-              // backgroundImage: AssetImage('asset/flutter_logo.png'),
+              radius: 100,
+              backgroundImage: AssetImage('assets/images/team13.jpg'),
             ),
             SizedBox(
               height: 10,
             ),
-            Text("DAIQA"),
+            Text(
+              "DAIQA",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
             SizedBox(
               height: 2,
             ),
             Text(
               "Mini PJT 13조",
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'Jua',
+              ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
               width: 150,
               child: Divider(
                 thickness: 1,
@@ -74,8 +82,8 @@ class QnaThirdPage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               color: Colors.purple[50],
               child: ListTile(
-                leading: Icon(Icons.money),
-                title: Text('456'),
+                leading: Icon(Icons.currency_bitcoin),
+                title: Text('8'),
               ),
             ),
             Card(
@@ -83,7 +91,7 @@ class QnaThirdPage extends StatelessWidget {
               color: Colors.purple[50],
               child: ListTile(
                 leading: Icon(Icons.mail),
-                title: Text('abc@gmail.com'),
+                title: Text('changNo1@sparta.com'),
               ),
             )
           ],

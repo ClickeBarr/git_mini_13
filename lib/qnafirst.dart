@@ -61,9 +61,23 @@ class _QnaFirstPageState extends State<QnaFirstPage> {
                 ),
                 backgroundColor: Colors.amber[50],
                 actions: [
-                  IconButton(
-                    icon: Icon(Icons.search_sharp, color: Colors.pink[200]),
-                    onPressed: () {},
+                  TextButton(
+                    child: Text("logout",
+                        style: TextStyle(
+                          color: Colors.pink[200],
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Jua',
+                        )),
+                    onPressed: () {
+                      //로그아웃
+                      context
+                          .read<AuthService>()
+                          .signOut(); //여긴 consumer로 감싸지않아 1회성 접근하는 context.read
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -73,7 +87,7 @@ class _QnaFirstPageState extends State<QnaFirstPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      SizedBox(height: 35),
+                      SizedBox(height: 90),
                       Row(
                         children: [
                           Container(),
@@ -137,78 +151,77 @@ class _QnaFirstPageState extends State<QnaFirstPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 80),
-                        child: Row(
-                          children: [
-                            ButtonBar(
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.orangeAccent,
-                                    minimumSize: Size(80, 50),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    side: BorderSide(
-                                        color: Colors.deepOrangeAccent,
-                                        width: 3),
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        selectedIndex = (Random().nextDouble() *
-                                                qnaService.questionList.length)
-                                            .toInt();
-                                      },
-                                    );
-                                    _incrementCounter();
-                                    print('$_counter');
-                                  },
-                                  child: Text(
-                                    'o',
-                                    style: TextStyle(
-                                        fontSize: 35, color: Colors.white),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ButtonBar(
+                            buttonPadding: EdgeInsets.symmetric(horizontal: 50),
+                            children: [
+                              //OButton
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue,
+                                  minimumSize: Size(80, 50),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  side:
+                                      BorderSide(color: Colors.blue, width: 3),
+                                ),
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      selectedIndex = (Random().nextDouble() *
+                                              qnaService.questionList.length)
+                                          .toInt();
+                                    },
+                                  );
+                                  _incrementCounter();
+                                  print('$_counter');
+                                },
+                                child: Text(
+                                  'O',
+                                  style: TextStyle(
+                                    fontSize: 35,
+                                    color: Colors.yellow,
                                   ),
                                 ),
-                                // Spacer(),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.orangeAccent,
-                                    minimumSize: Size(80, 50),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    side: BorderSide(
-                                        color: Colors.deepOrangeAccent,
-                                        width: 3),
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        selectedIndex = (Random().nextDouble() *
-                                                qnaService.questionList.length)
-                                            .toInt();
-                                      },
-                                    );
-                                    _incrementCounter();
-                                    print('$_counter');
-                                  },
-                                  child: Text(
-                                    'x',
-                                    style: TextStyle(
-                                        fontSize: 35,
-                                        color: Colors.white,
-                                        fontFamily: 'Jua'),
+                              ),
+                              // Spacer(),
+                              // Xbutton
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.yellow,
+                                  minimumSize: Size(80, 50),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  side: BorderSide(
+                                      color: Colors.yellow, width: 3),
+                                ),
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      selectedIndex = (Random().nextDouble() *
+                                              qnaService.questionList.length)
+                                          .toInt();
+                                    },
+                                  );
+                                  _incrementCounter();
+                                  print('$_counter');
+                                },
+                                child: Text(
+                                  'X',
+                                  style: TextStyle(
+                                    fontSize: 35,
+                                    color: Colors.blue,
                                   ),
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                      SizedBox(height: 80),
+                      SizedBox(height: 50),
                       Container(
                         padding: EdgeInsets.all(10),
                         height: 50,
@@ -230,6 +243,7 @@ class _QnaFirstPageState extends State<QnaFirstPage> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue,
+                                fontFamily: 'Jua',
                               ),
                             ),
                           ],

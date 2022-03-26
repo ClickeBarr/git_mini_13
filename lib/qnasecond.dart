@@ -29,16 +29,28 @@ class _QnaSecondPageState extends State<QnaSecondPage> {
               style: TextStyle(
                 color: Colors.pink[200],
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Jua',
               ),
             ),
             backgroundColor: Colors.amber[50],
             actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.search_sharp,
-                  color: Colors.pink[200],
-                ),
-                onPressed: () {},
+              TextButton(
+                child: Text("logout",
+                    style: TextStyle(
+                      color: Colors.pink[200],
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Jua',
+                    )),
+                onPressed: () {
+                  //로그아웃
+                  context
+                      .read<AuthService>()
+                      .signOut(); //여긴 consumer로 감싸지않아 1회성 접근하는 context.read
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
               ),
             ],
           ),
@@ -54,6 +66,7 @@ class _QnaSecondPageState extends State<QnaSecondPage> {
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.tag_faces, color: Colors.purple),
                         hintText: "새로운 질문을 입력해 주세요",
+                        hintStyle: TextStyle(fontFamily: 'Jua'),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             borderSide: BorderSide(color: Colors.purple)),
@@ -62,7 +75,15 @@ class _QnaSecondPageState extends State<QnaSecondPage> {
                   ),
                   SizedBox(height: 15),
                   ElevatedButton(
-                    child: Icon(Icons.add),
+                    // style: ButtonStyle(shadowColor: Colors.purple,)
+                    child: Text(
+                      "+++  질문하기  +++",
+                      style: TextStyle(
+                        fontFamily: 'Jua',
+                        fontSize: 20,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(primary: Colors.purple),
                     onPressed: () {
                       if (qnaController.text.isNotEmpty) {
                         qnaService.create(qnaController.text, user.uid);
@@ -85,13 +106,16 @@ class _QnaSecondPageState extends State<QnaSecondPage> {
 
                   SizedBox(height: 80),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Container(
                       alignment: Alignment.topLeft,
                       child: Text(
                         '내가 한 질문 보기',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Jua',
+                        ),
                       ),
                     ),
                   ),
@@ -112,7 +136,14 @@ class _QnaSecondPageState extends State<QnaSecondPage> {
                                 String question = doc.get('question');
                                 // bool isDone = doc.get('isDone');
                                 return ListTile(
-                                  title: Text(question),
+                                  leading: Icon(Icons.question_answer_outlined),
+                                  title: Text(
+                                    question,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'Jua',
+                                    ),
+                                  ),
                                 );
                               });
                         }),

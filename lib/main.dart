@@ -62,143 +62,154 @@ class _LoginPageState extends State<LoginPage> {
             scaffoldBackgroundColor: Colors.white,
           ),
           home: Scaffold(
-            body: Container(
-              height: size.height,
-              width: double.infinity,
-              child: Stack(
-                alignment: Alignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  /// 현재 유저 로그인 상태
+            body: SafeArea(
+              child: Container(
+                height: size.height,
+                width: double.infinity,
+                child: Stack(
+                  alignment: Alignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    /// 현재 유저 로그인 상태
 
-                  Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/2.jpeg"),
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 400),
-                      Center(
-                        child: Text(
-                          user == null
-                              ? "WELCOME TO DAIQA"
-                              : "${user.email}님 안녕하세요 👋",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: KPrimaryColor),
-                        ),
-                      ),
-
-                      SizedBox(height: 25),
-
-                      /// 이메일
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(hintText: "이메일"),
-                        ),
-                      ),
-
-                      /// 비밀번호
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: TextField(
-                          controller: passwordController,
-                          obscureText: false, // 비밀번호 안보이게
-                          decoration: InputDecoration(hintText: "비밀번호"),
-                        ),
-                      ),
-                      SizedBox(height: 40),
-
-                      /// 로그인 버튼
-                      Container(
-                        width: size.width * 0.7,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(29),
-                          child: FlatButton(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            color: KPrimaryColor,
-                            child: Text("로 그 인",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16)),
-                            onPressed: () {
-                              // 로그인
-                              authService.signIn(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                onSuccess: () {
-                                  // 로그인 성공
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text("로그인 성공"),
-                                  ));
-
-                                  // HomePage로 이동
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Qna()),
-                                  );
-                                },
-                                onError: (err) {
-                                  // 에러 발생
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(err),
-                                  ));
-                                },
-                              );
-                            },
+                    Image(
+                      fit: BoxFit.fitHeight,
+                      image: AssetImage("assets/images/2.jpeg"),
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 400),
+                        Center(
+                          child: Text(
+                            user == null
+                                ? "WELCOME TO DAIQA"
+                                : "${user.email}님 안녕하세요 👋",
+                            style: TextStyle(
+                                fontFamily: 'Jua',
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: KPrimaryColor),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 6),
 
-                      /// 회원가입 버튼
-                      Container(
-                        width: size.width * 0.7,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(29),
-                          child: FlatButton(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            color: KPrimaryColor,
-                            child: Text("회원가입",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16)),
-                            onPressed: () {
-                              // 회원가입
-                              authService.signUp(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                onSuccess: () {
-                                  // 회원가입 성공
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text("회원가입 성공"),
-                                  ));
-                                },
-                                onError: (err) {
-                                  // 에러 발생
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(err),
-                                  ));
-                                },
-                              );
-                            },
+                        SizedBox(height: 25),
+
+                        /// 이메일
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextField(
+                            controller: emailController,
+                            decoration: InputDecoration(hintText: "이메일"),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+
+                        /// 비밀번호
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: TextField(
+                            controller: passwordController,
+                            obscureText: false, // 비밀번호 안보이게
+                            decoration: InputDecoration(hintText: "비밀번호"),
+                          ),
+                        ),
+                        SizedBox(height: 40),
+
+                        /// 로그인 버튼
+                        Container(
+                          width: size.width * 0.7,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(29),
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 40),
+                              color: KPrimaryColor,
+                              child: Text(
+                                "로 그 인",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: 'Jua'),
+                              ),
+                              onPressed: () {
+                                // 로그인
+                                authService.signIn(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  onSuccess: () {
+                                    // 로그인 성공
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text("로그인 성공"),
+                                    ));
+
+                                    // HomePage로 이동
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Qna()),
+                                    );
+                                  },
+                                  onError: (err) {
+                                    // 에러 발생
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(err),
+                                    ));
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 6),
+
+                        /// 회원가입 버튼
+                        Container(
+                          width: size.width * 0.7,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(29),
+                            child: FlatButton(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 40),
+                              color: KPrimaryColor,
+                              child: Text(
+                                "회원가입",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: 'Jua'),
+                              ),
+                              onPressed: () {
+                                // 회원가입
+                                authService.signUp(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  onSuccess: () {
+                                    // 회원가입 성공
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text("회원가입 성공"),
+                                    ));
+                                  },
+                                  onError: (err) {
+                                    // 에러 발생
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(err),
+                                    ));
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

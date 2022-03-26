@@ -50,7 +50,9 @@ class _QnaState extends State<Qna> {
                   Text(
                     "답변하기",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontFamily: 'Jua',
+                    ),
                   )
                 ],
               ),
@@ -61,7 +63,9 @@ class _QnaState extends State<Qna> {
                   Icon(Icons.question_answer),
                   Text("질문하기",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold))
+                        color: Colors.white,
+                        fontFamily: 'Jua',
+                      ))
                 ],
               ),
               label: ""),
@@ -71,7 +75,9 @@ class _QnaState extends State<Qna> {
                   Icon(Icons.wallet_giftcard),
                   Text("마이페이지",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold))
+                        color: Colors.white,
+                        fontFamily: 'Jua',
+                      ))
                 ],
               ),
               label: ""),
